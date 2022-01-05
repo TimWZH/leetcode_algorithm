@@ -329,3 +329,54 @@ def sortColor(self,nums):
             nums[twoPointer],nums[i] = nums[i], nums[twoPointer]
             i -= 1
         i += 1
+
+# 10. Sort Colors II
+# Given an array of n objects with k different colors (numbered from 1 to k),
+# sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, ... k.
+# Apart from two-pass algorithm using counting sort. That will cause O(k) extra memory.
+# Can you do it O(logk) using extra memory.
+
+def sortColors2(self, colors, k):
+    if not colors or len(colors) < 2:
+        return
+    self.sort(colors,1,k,0, len(colors) - 1)
+
+def sort(self, colors, color_from, color_to, index_from, index_to):
+    if color_from == color_to:
+        return
+    mid_color = (color_from + color_to) // 2
+
+    left, right = index_from, index_to
+    while left <= right:
+        while left <= right and colors[left] <= mid_color:
+            left += 1
+        while left <= right and colors[right] > mid_color:
+            right -= 1
+        if left <= right:
+            colors[left], colors[right] = colors[right], colors[left]
+            left += 1
+            right -= 1
+    self.sort(colors,color_from,mid_color,index_from,left-1)
+    self,sort(colors, mid_color + 1,color_to, left, index_to)
+
+# 11. Move Zeroes
+# Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the
+# non-zero elements.
+# You must do  this in-place without making a copy of the array.
+# Minimize the total number of operations
+
+def moveZeros(self, nums):
+    if not nums:
+        return None
+    
+    zero, cur = 0,0
+    while zero < len(nums):
+        if nums[cur] != 0:
+            if zero != cur:
+                # reduce write operations
+                nums[zero] = nums[cur]
+                # nums[zero], nums[cur] = nums[cur], nums[zero]
+            cur +=1
+        zero += 1
+        
+        
